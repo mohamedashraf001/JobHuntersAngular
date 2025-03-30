@@ -1,0 +1,48 @@
+<div class="bg-gray-100 min-h-screen">
+    <!-- Header Section -->
+ 
+    <div class="bg-black text-white py-12 px-6 text-center relative">
+        <h1 class="text-5xl font-extrabold">Find Your Dream Job Here ✨</h1>
+    </div>
+    <div class="flex pt-8 w-full">
+     
+
+        <!-- Main Content -->
+        <div class="flex-1 w-full flex-grow pr-10 pb-2 pl-11">
+            <div class="bg-white p-6 rounded-lg" *ngIf="job">
+                <h2 class="text-2xl font-bold mb-2">{{ job.title }}</h2>
+                <div class="flex gap-2 mb-4">
+                    <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">{{ job.experienceLevel }}</span>
+                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">{{ job.jobType }}</span>
+                    <span class="bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">{{ job.jobPlace }}</span>
+                    <span class="text-gray-400 text-sm">Posted {{ job.postedDate | date: 'shortDate' }}</span>
+                </div>
+                <p class="text-gray-700 mb-3">{{ job.description }}</p>
+
+                <h3 class="font-semibold text-gray-800">Company:</h3>
+                <p class="text-gray-600 text-sm mb-4">{{ job.companyName }}</p>
+
+                <h3 class="font-semibold text-gray-800">Requirements:</h3>
+                <p class="text-gray-600 text-sm mb-4">{{ job.requirements }}</p>
+
+                <h3 class="font-semibold text-gray-800">Location:</h3>
+                <p class="text-gray-600 text-sm mb-4">{{ job.location }}</p>
+
+                <h3 class="font-semibold text-gray-800">Salary:</h3>
+                <p class="text-gray-600 text-sm mb-4">${{ job.salary }}/month</p>
+
+                <h3 class="font-semibold text-gray-800">Contact:</h3>
+                <p class="text-gray-600 text-sm mb-4">Email: {{ job.contactEmail }}</p>
+                <p class="text-gray-600 text-sm mb-4">Phone: {{ job.contactPhone }}</p>
+
+                <div class="mt-6 pb-10">
+                    <a [href]="job.externalApplicationLink" target="_blank">
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">
+                            Apply Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

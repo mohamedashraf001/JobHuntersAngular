@@ -1,0 +1,110 @@
+<body class="bg-gray-100">
+    <!-- Header Section -->
+    <div class="bg-black text-white py-12 px-6 text-center relative">
+        <h1 class="text-5xl font-extrabold">Job Applications 📄</h1>
+    </div>
+
+    <div class="flex items-center justify-center p-6">
+        <div class="relative w-full max-w-5xl bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-3xl font-bold text-gray-400 mb-6 text-center">Applications List</h2>
+
+            <!-- رسائل الحالة -->
+            <div *ngIf="statusMessage" 
+                 [class.bg-green-100]="statusMessage.type === 'success'"
+                 [class.bg-red-100]="statusMessage.type === 'error'"
+                 [class.text-green-800]="statusMessage.type === 'success'"
+                 [class.text-red-800]="statusMessage.type === 'error'"
+                 class="p-4 mb-4 rounded">
+                {{statusMessage.text}}
+            </div>
+
+            <!-- مؤشر التحميل -->
+            <div *ngIf="isLoading" class="text-center py-4">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+                <p class="mt-2">Loading...</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="space-x-2">
+                    <button (click)="filterApplications('all')" 
+                            [class.bg-blue-500]="currentFilter === 'all'"
+                            [class.text-white]="currentFilter === 'all'"
+                            class="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400 transition">All</button>
+                    <button (click)="filterApplications('pending')"
+                            [class.bg-blue-500]="currentFilter === 'pending'"
+                            [class.text-white]="currentFilter === 'pending'"
+                            class="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400 transition">Pending</button>
+                    <button (click)="filterApplications('approved')"
+                            [class.bg-blue-500]="currentFilter === 'approved'"
+                            [class.text-white]="currentFilter === 'approved'"
+                            class="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400 transition">Approved</button>
+                    <button (click)="filterApplications('rejected')"
+                            [class.bg-blue-500]="currentFilter === 'rejected'"
+                            [class.text-white]="currentFilter === 'rejected'"
+                            class="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400 transition">Rejected</button>
+                </div>
+            </div>
+
+            <!-- Applications Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3 text-left">#</th>
+                            <th class="border p-3 text-left">Application Date</th>
+                            <th class="border p-3 text-left">Job Title</th>
+                            <th class="border p-3 text-left">Resume</th>
+                            <th class="border p-3 text-left">Comment</th>
+                            <th class="border p-3 text-left">Status</th>
+                            <th class="border p-3 text-left text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let app of filteredApplications; let i = index" class="hover:bg-gray-100">
+                            <td class="border p-3">{{ i + 1 }}</td>
+                            <td class="border p-3">{{ app.applicationDate | date:'short' }}</td>
+                            <td class="border p-3">{{ app.job?.title || 'N/A' }}</td>
+                            <td class="border p-3">
+                                <a (click)="downloadResume(app.resumeFile)" 
+                                   class="text-blue-500 hover:underline cursor-pointer">Download</a>
+                            </td>
+                            <td class="border p-3">{{ app.comment || '-' }}</td>
+                            <td class="border p-3 font-semibold"
+                                [class.text-blue-500]="app.status === 'Pending'"
+                                [class.text-green-500]="app.status === 'Approved'"
+                                [class.text-red-500]="app.status === 'Rejected'">
+                                {{ app.status }}
+                            </td>
+                            <td class="border p-3 text-center space-x-2">
+                                <button (click)="updateApplicationStatus(app.id, 1)"
+                                        [disabled]="isLoading || app.status === 'Approved'"
+                                        class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 disabled:opacity-50">
+                                    Accept
+                                </button>
+                                <button (click)="updateApplicationStatus(app.id, 2)"
+                                        [disabled]="isLoading || app.status === 'Rejected'"
+                                        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:opacity-50">
+                                    Reject
+                                </button>
+                                <button (click)="updateApplicationStatus(app.id, 0)"
+                                [disabled]="isLoading || app.status === 'Pending'"
+                                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 disabled:opacity-50">
+                            Pending
+                        </button>
+                                <button (click)="deleteApplication(app.id)"
+                                        [disabled]="isLoading"
+                                        class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 disabled:opacity-50">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="filteredApplications.length === 0 && !isLoading">
+                            <td colspan="7" class="border p-3 text-center">No applications found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
