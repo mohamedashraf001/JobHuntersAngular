@@ -8,6 +8,7 @@ import { GetuserjobsComponent } from './getuserjobs/getuserjobs.component';
 import { LoginComponent } from './login/login.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { HomeComponent } from './home/home.component';
+import { GetuserappsComponent } from './getuserapps/getuserapps.component';
 
 
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path:"addjob",component:AddJobComponent},
   {path:"getjobapps",component:GetjodappsComponent},
   {path:"getuserjobs",component:GetuserjobsComponent},
+  {path:"getuserapps",component:GetuserappsComponent},
   {path:"login",component:LoginComponent},
 ];
 

@@ -1,110 +1,179 @@
 <body class="bg-gray-100">
-    <div class="bg-black text-white py-12 px-6 text-center relative">
-        <h1 class="text-5xl font-extrabold">Post a New Job 🚀</h1>
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-black to-blue-900 text-white py-12 px-6 text-center relative">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Post a New Job Opportunity 🚀</h1>
+        <p class="text-blue-100 text-lg">Fill out the form below to list your job opening</p>
     </div>
 
-    <div class="flex items-center justify-center p-6">
-        <div class="relative w-full max-w-7xl bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-            <h2 class="text-3xl font-bold text-gray-400 mb-6 text-center">Add Job Details</h2>
+    <div class="flex items-center justify-center p-4 md:p-8">
+        <div class="relative w-full max-w-8xl bg-white p-6 md:p-10 rounded-xl shadow-2xl border border-gray-100">
+            <!-- Form Header -->
+            <div class="mb-8 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Job Details</h2>
+                <p class="text-gray-500 mt-2">Complete all required fields to post your job</p>
+            </div>
 
-            <form (ngSubmit)="submitJob()">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Job Title</label>
-                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.title" name="title" placeholder="Enter job title" required>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Company Name</label>
-                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.companyName" name="companyName" placeholder="Enter company name" required>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Location</label>
-                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.location" name="location" placeholder="Enter job location" required>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Salary</label>
-                        <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.salary" name="salary" placeholder="Enter salary" required>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Contact Email</label>
-                        <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.contactEmail" name="contactEmail" placeholder="Enter contact email" required>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Contact Phone</label>
-                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.contactPhone" name="contactPhone" placeholder="Enter contact phone" required>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Application Link</label>
-                        <input type="url" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.externalApplicationLink" name="externalApplicationLink" placeholder="Enter application link (optional)">
+            <form (ngSubmit)="submitJob()" class="space-y-6">
+                <!-- Basic Information Section -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        Basic Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Job Title <span class="text-red-500">*</span></label>
+                            <input type="text" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                   [(ngModel)]="job.title" name="title" placeholder="e.g. Senior Frontend Developer" required>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Company Name <span class="text-red-500">*</span></label>
+                            <input type="text" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                   [(ngModel)]="job.companyName" name="companyName" placeholder="Your company name" required>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Location <span class="text-red-500">*</span></label>
+                            <input type="text" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                   [(ngModel)]="job.location" name="location" placeholder="e.g. Remote, New York, etc." required>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Salary ($) <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="number" class="w-full pl-8 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                       [(ngModel)]="job.salary" name="salary" placeholder="Annual salary" required>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">Job Description</label>
-                        <textarea class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.description" name="description" placeholder="Enter job description" rows="4" required></textarea>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">Requirements</label>
-                        <textarea class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.requirements" name="requirements" placeholder="Enter job requirements" rows="4" required></textarea>
+                <!-- Contact Information Section -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Contact Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Contact Email <span class="text-red-500">*</span></label>
+                            <div class="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+                                <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                <input type="email" class="w-full focus:outline-none" 
+                                       [(ngModel)]="job.contactEmail" name="contactEmail" placeholder="hr@yourcompany.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Contact Phone <span class="text-red-500">*</span></label>
+                            <div class="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+                                <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                                <input type="text" class="w-full focus:outline-none" 
+                                       [(ngModel)]="job.contactPhone" name="contactPhone" placeholder="+1 (123) 456-7890" required>
+                            </div>
+                        </div>
+                        
+                        <div class="relative md:col-span-2">
+                            <label class="block text-gray-700 font-medium mb-2">Application Link</label>
+                            <div class="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+                                <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                </svg>
+                                <input type="url" class="w-full focus:outline-none" 
+                                       [(ngModel)]="job.externalApplicationLink" name="externalApplicationLink" placeholder="https://yourcompany.com/careers/apply">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                    <!-- <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Added By User ID</label>
-                        <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.addedByUserId" name="addedByUserId" placeholder="Enter your user ID" required>
-                    </div> -->
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Job Category ID</label>
-                        <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.jobCategoryId" name="jobCategoryId" placeholder="Enter job category ID" required>
+                <!-- Job Description Section -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Job Description
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Job Description <span class="text-red-500">*</span></label>
+                            <textarea class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                      [(ngModel)]="job.description" name="description" 
+                                      placeholder="Describe the role and responsibilities..." rows="5" required></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Requirements <span class="text-red-500">*</span></label>
+                            <textarea class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                      [(ngModel)]="job.requirements" name="requirements" 
+                                      placeholder="List the required skills and qualifications..." rows="5" required></textarea>
+                        </div>
                     </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Job Place</label>
-                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                [(ngModel)]="job.jobPlace" name="jobPlace" required>
-                            <option *ngFor="let place of jobPlaces" [value]="place">{{ place }}</option>
-                        </select>
-                    </div>
-                    
-                    <!-- <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Job Status</label>
-                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                [(ngModel)]="job.status" name="status" required>
-                            <option *ngFor="let status of jobStatuses" [value]="status">{{ status }}</option>
-                        </select>
-                    </div> -->
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Job Type</label>
-                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                [(ngModel)]="job.jobType" name="jobType" required>
-                            <option *ngFor="let type of jobTypes" [value]="type">{{ type }}</option>
-                        </select>
-                    </div>
-                    
-                    <div class="relative">
-                        <label class="block text-gray-700 font-medium mb-2">Experience Level</label>
-                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                [(ngModel)]="job.experienceLevel" name="experienceLevel" required>
-                            <option *ngFor="let level of experienceLevels" [value]="level">{{ level }}</option>
-                        </select>
-                    </div>
-                    
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 mt-6 rounded-lg hover:bg-blue-700 transition transform hover:scale-105">
-                    Post Job
-                </button>
+                <!-- Job Metadata Section -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                        </svg>
+                        Job Specifications
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Job Category ID</label>
+                            <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="job.jobCategoryId" name="jobCategoryId" placeholder="Enter job category ID" required>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Job Place <span class="text-red-500">*</span></label>
+                            <select class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white"
+                                    [(ngModel)]="job.jobPlace" name="jobPlace" required>
+                                <option value="" disabled selected>Select work arrangement</option>
+                                <option *ngFor="let place of jobPlaces" [value]="place">{{ place }}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Job Type <span class="text-red-500">*</span></label>
+                            <select class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white"
+                                    [(ngModel)]="job.jobType" name="jobType" required>
+                                <option value="" disabled selected>Select employment type</option>
+                                <option *ngFor="let type of jobTypes" [value]="type">{{ type }}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-700 font-medium mb-2">Experience Level <span class="text-red-500">*</span></label>
+                            <select class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white"
+                                    [(ngModel)]="job.experienceLevel" name="experienceLevel" required>
+                                <option value="" disabled selected>Select experience level</option>
+                                <option *ngFor="let level of experienceLevels" [value]="level">{{ level }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-4 px-6 rounded-xl hover:from-blue-700 hover:to-indigo-800 transition-all transform hover:scale-[1.01] shadow-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Post Job Now
+                    </button>
+                </div>
             </form>
         </div>
     </div>

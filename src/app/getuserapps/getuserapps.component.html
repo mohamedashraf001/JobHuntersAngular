@@ -1,0 +1,145 @@
+<body class="bg-gray-100">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 px-6 text-center relative">
+        <h1 class="text-5xl font-extrabold">Your Applications Status 💼</h1>
+        <p class="mt-4 text-xl">Check the progress of your job applications</p>
+    </div>
+
+    <div class="flex items-center justify-center p-6">
+        <div class="relative w-full max-w-7xl bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+            <!-- Status Messages -->
+            <div *ngIf="statusMessage" 
+                 [class.bg-green-100]="statusMessage.type === 'success'"
+                 [class.bg-red-100]="statusMessage.type === 'error'"
+                 [class.text-green-800]="statusMessage.type === 'success'"
+                 [class.text-red-800]="statusMessage.type === 'error'"
+                 class="p-4 mb-6 rounded-lg flex items-center">
+                <span *ngIf="statusMessage.type === 'success'" class="text-2xl mr-2">🎉</span>
+                <span *ngIf="statusMessage.type === 'error'" class="text-2xl mr-2">😕</span>
+                {{statusMessage.text}}
+            </div>
+
+            <!-- Loading Indicator -->
+            <div *ngIf="isLoading" class="text-center py-8">
+                <div class="inline-flex items-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
+                    <span class="ml-3 text-lg">Loading your applications...</span>
+                </div>
+            </div>
+
+            <!-- Application Cards -->
+            <div *ngIf="!isLoading" class="space-y-6">
+                <div *ngFor="let app of filteredApplications" 
+                     class="border rounded-xl p-6 hover:shadow-md transition-shadow"
+                     [class.border-blue-200]="app.status === 'Pending'"
+                     [class.border-green-200]="app.status === 'Approved'"
+                     [class.border-red-200]="app.status === 'Rejected'"
+                     [class.bg-blue-50]="app.status === 'Pending'"
+                     [class.bg-green-50]="app.status === 'Approved'"
+                     [class.bg-red-50]="app.status === 'Rejected'">
+                    
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+                                <span *ngIf="app.status === 'Pending'" class="mr-2">⏳</span>
+                                <span *ngIf="app.status === 'Approved'" class="mr-2">🎊</span>
+                                <span *ngIf="app.status === 'Rejected'" class="mr-2">📛</span>
+                                {{ app.job?.title || 'Untitled Position' }}
+                            </h3>
+                            <p class="text-gray-600 mt-1">
+                                Applied on {{ app.applicationDate | date:'mediumDate' }}
+                            </p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-sm font-semibold"
+                              [class.bg-blue-100]="app.status === 'Pending'"
+                              [class.text-blue-800]="app.status === 'Pending'"
+                              [class.bg-green-100]="app.status === 'Approved'"
+                              [class.text-green-800]="app.status === 'Approved'"
+                              [class.bg-red-100]="app.status === 'Rejected'"
+                              [class.text-red-800]="app.status === 'Rejected'">
+                            {{ app.status }}
+                        </span>
+                    </div>
+
+                    <div class="mt-4">
+                        <p *ngIf="app.comment" class="text-gray-700 italic">
+                            "{{ app.comment }}"
+                        </p>
+                        
+                        <div class="mt-4 flex items-center space-x-4">
+                            <a (click)="downloadResume(app.resumeFile)" 
+                               class="flex items-center text-blue-600 hover:text-blue-800 cursor-pointer">
+                                <span class="mr-1">📄</span> Download Resume
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Status-specific messages -->
+                    <div class="mt-6 p-4 rounded-lg" 
+                         *ngIf="app.status === 'Pending' || app.status === 'Approved' || app.status === 'Rejected'"
+                         [class.bg-blue-100]="app.status === 'Pending'"
+                         [class.bg-green-100]="app.status === 'Approved'"
+                         [class.bg-red-100]="app.status === 'Rejected'">
+                        <div *ngIf="app.status === 'Pending'" class="flex items-start">
+                            <span class="text-2xl mr-3">👋</span>
+                            <div>
+                                <h4 class="font-bold text-blue-800">Your application is being reviewed</h4>
+                                <p class="text-blue-700">We're currently evaluating your application. Hang tight!</p>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="app.status === 'Approved'" class="flex items-start">
+                            <span class="text-2xl mr-3">🌟</span>
+                            <div>
+                                <h4 class="font-bold text-green-800">Congratulations!</h4>
+                                <p class="text-green-700">Your application has been accepted! We'll contact you soon.</p>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="app.status === 'Rejected'" class="flex items-start">
+                            <span class="text-2xl mr-3">💪</span>
+                            <div>
+                                <h4 class="font-bold text-red-800">Thank you for applying</h4>
+                                <p class="text-red-700">We appreciate your interest but have decided to move forward with other candidates.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="filteredApplications.length === 0" class="text-center py-12">
+                    <div class="text-5xl mb-4">📭</div>
+                    <h3 class="text-2xl font-bold text-gray-700">No applications found</h3>
+                    <p class="text-gray-600 mt-2">You haven't applied to any jobs yet or your applications don't match the current filter.</p>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="mt-8 flex flex-wrap justify-center gap-2">
+                <button (click)="filterApplications('all')" 
+                        [class.bg-purple-600]="currentFilter === 'all'"
+                        [class.text-white]="currentFilter === 'all'"
+                        class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300 transition flex items-center">
+                    <span class="mr-1">👀</span> All
+                </button>
+                <button (click)="filterApplications('pending')"
+                        [class.bg-blue-600]="currentFilter === 'pending'"
+                        [class.text-white]="currentFilter === 'pending'"
+                        class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full hover:bg-blue-200 transition flex items-center">
+                    <span class="mr-1">⏳</span> Pending
+                </button>
+                <button (click)="filterApplications('approved')"
+                        [class.bg-green-600]="currentFilter === 'approved'"
+                        [class.text-white]="currentFilter === 'approved'"
+                        class="bg-green-100 text-green-800 px-4 py-2 rounded-full hover:bg-green-200 transition flex items-center">
+                    <span class="mr-1">✅</span> Approved
+                </button>
+                <button (click)="filterApplications('rejected')"
+                        [class.bg-red-600]="currentFilter === 'rejected'"
+                        [class.text-white]="currentFilter === 'rejected'"
+                        class="bg-red-100 text-red-800 px-4 py-2 rounded-full hover:bg-red-200 transition flex items-center">
+                    <span class="mr-1">❌</span> Rejected
+                </button>
+            </div>
+        </div>
+    </div>
+</body>

@@ -33,9 +33,17 @@ export class HomeComponent implements OnInit {
     }
   };
 
+  searchQuery = {
+    title: '',
+    location: '',
+    companyName: ''
+  };
+
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.loadJobs();
     this.http.get<any>(this.apiUrl).subscribe(response => {
       if (response.success) {
         this.jobs = response.data;
@@ -86,4 +94,34 @@ export class HomeComponent implements OnInit {
       this.applyFilters();
     }
   }
+  loadJobs(): void {
+    let url = this.apiUrl;
+    const params = [];
+    
+    if (this.searchQuery.title) {
+      params.push(`title=${encodeURIComponent(this.searchQuery.title)}`);
+    }
+    if (this.searchQuery.location) {
+      params.push(`location=${encodeURIComponent(this.searchQuery.location)}`);
+    }
+    if (this.searchQuery.companyName) {
+      params.push(`companyName=${encodeURIComponent(this.searchQuery.companyName)}`);
+    }
+    
+    if (params.length > 0) {
+      url += '/search?' + params.join('&');
+    }
+
+    this.http.get<any>(url).subscribe(response => {
+      if (response.success) {
+        this.jobs = response.data;
+        this.filteredJobs = [...this.jobs];
+      }
+    });
+  }
+
+  onSearch(): void {
+    this.loadJobs();
+  }
+  
 }

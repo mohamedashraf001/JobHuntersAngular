@@ -1,109 +1,122 @@
 <div class="bg-gray-100 min-h-screen">
-  <!-- Header Section -->
-  <div class="bg-black text-white py-8 md:py-12 px-4 sm:px-6 text-center relative">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-black to-indigo-900 text-white py-12 px-6 text-center relative">
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold">Find Your Dream Job Here ✨</h1>
       <div class="flex flex-col sm:flex-row justify-center mt-4 sm:mt-6 space-y-2 sm:space-y-0">
           <input type="text" placeholder="Job title or keyword" 
+                 [(ngModel)]="searchQuery.title"
                  class="w-full sm:w-2/5 p-3 rounded-lg sm:rounded-l-lg sm:rounded-r-none border-none text-black focus:ring-2 focus:ring-blue-500 outline-none">
           <input type="text" placeholder="Add country or city" 
+                 [(ngModel)]="searchQuery.location"
                  class="w-full sm:w-1/5 p-3 rounded-lg sm:rounded-none border-l border-gray-300 text-black focus:ring-2 focus:ring-blue-500 outline-none">
-          <button class="bg-orange-500 px-6 py-3 text-white font-bold rounded-lg sm:rounded-r-lg sm:rounded-l-none hover:bg-blue-600 transition-all">
+          <button (click)="onSearch()" 
+                  class="bg-orange-500 px-6 py-3 text-white font-bold rounded-lg sm:rounded-r-lg sm:rounded-l-none hover:bg-blue-600 transition-all">
               Search
           </button>
       </div>
+    </div>
+    
+    <div class="flex flex-col lg:flex-row pt-6 md:pt-8 gap-4 px-4 sm:px-6">
+        <!-- Filters Sidebar -->
+        <div class="lg:w-72 p-4 md:p-6 rounded-xl lg:sticky lg:top-10 h-fit overflow-auto shadow-md lg:shadow-none">
+            <!-- Job Type Section -->
+            <h2 class="text-lg md:text-xl font-bold mb-4">Job Type</h2>
+            <ul class="space-y-2 md:space-y-4"> 
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.fullTime" (change)="onFilterChange()">
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm md:text-base">Full time</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.partTime" (change)="onFilterChange()">
+                    <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm md:text-base">Part time</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.internship" (change)="onFilterChange()">
+                    <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-sm md:text-base">Internship</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.projectWork" (change)="onFilterChange()">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm md:text-base">Project work</span>
+                </li>
+            </ul>
+  
+            <!-- Experience Level Section -->
+            <h2 class="text-lg md:text-xl font-bold mt-6 mb-4">Experience Level</h2>
+            <ul class="space-y-2 md:space-y-4"> 
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.entryLevel" (change)="onFilterChange()">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm md:text-base">Entry Level</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.junior" (change)="onFilterChange()">
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm md:text-base">Junior</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.midLevel" (change)="onFilterChange()">
+                    <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm md:text-base">Mid Level</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.senior" (change)="onFilterChange()">
+                    <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm md:text-base">Senior</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.lead" (change)="onFilterChange()">
+                    <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm md:text-base">Lead</span>
+                </li>
+            </ul>
+  
+            <!-- Job Place Section -->
+            <h2 class="text-lg md:text-xl font-bold mt-6 mb-4">Job Place</h2>
+            <ul class="space-y-2 md:space-y-4"> 
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobPlace.onSite" (change)="onFilterChange()">
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm md:text-base">On-site</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobPlace.remote" (change)="onFilterChange()">
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm md:text-base">Remote</span>
+                </li>
+                <li>
+                    <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobPlace.hybrid" (change)="onFilterChange()">
+                    <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm md:text-base">Hybrid</span>
+                </li>
+            </ul>
+        </div>
+  
+        <!-- Main Content -->
+        <div class="flex-1">
+            <!-- No Jobs Found State -->
+            <div *ngIf="filteredJobs.length === 0" class="bg-white rounded-2xl shadow-lg p-8 text-center max-w-2xl mx-auto">
+                <div class="text-7xl mb-4">🧐</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Oops! No Jobs Found</h2>
+                <p class="text-gray-600 mb-2">We searched far and wide but couldn't find any matching jobs.</p>
+                <p class="text-gray-500 text-sm">Try different keywords or adjust your filters 🌈</p>
+                <div class="mt-6 text-4xl">👻</div>
+            </div>
+  
+            <!-- Jobs Grid -->
+            <div *ngIf="filteredJobs.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div *ngFor="let job of filteredJobs" class="bg-white shadow-lg rounded-2xl p-4 md:p-5 w-full h-full flex flex-col">
+                    <div class="flex items-center gap-3">
+                        <div>
+                            <h3 class="text-base md:text-lg font-semibold">{{ job.title }}</h3>
+                            <p class="text-gray-500 text-xs md:text-sm">{{ job.companyName }} • {{ job.location }}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-2 md:mt-3">
+                        <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">{{ job.experienceLevel }}</span>
+                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">{{ job.jobType }}</span>
+                        <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded-full">{{ job.jobPlace }}</span>
+                    </div>
+                    <p class="text-gray-600 text-xs md:text-sm mt-2 md:mt-3 overflow-hidden line-clamp-3 flex-grow">
+                        {{ job.description }}
+                    </p>
+                    <div class="flex justify-between items-center mt-3 md:mt-4 pt-2 border-t border-gray-100">
+                        <span class="text-base md:text-lg font-bold">${{ job.salary }}/hr</span>
+                        <span class="text-gray-400 text-xs md:text-sm">Posted {{ job.postedDate | date: 'shortDate' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
-
-  <div class="flex flex-col lg:flex-row pt-6 md:pt-8 gap-4 px-4 sm:px-6">
-      <!-- Filters Sidebar -->
-      <div class="lg:w-72 p-4 md:p-6 rounded-xl lg:sticky lg:top-10 h-fit overflow-auto  shadow-md lg:shadow-none">
-          <!-- Job Type Section -->
-          <h2 class="text-lg md:text-xl font-bold mb-4">Job Type</h2>
-          <ul class="space-y-2 md:space-y-4"> 
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.fullTime" (change)="onFilterChange()">
-                  <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm md:text-base">Full time</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.partTime" (change)="onFilterChange()">
-                  <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm md:text-base">Part time</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.internship" (change)="onFilterChange()">
-                  <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-sm md:text-base">Internship</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobType.projectWork" (change)="onFilterChange()">
-                  <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm md:text-base">Project work</span>
-              </li>
-          </ul>
-
-          <!-- Experience Level Section -->
-          <h2 class="text-lg md:text-xl font-bold mt-6 mb-4">Experience Level</h2>
-          <ul class="space-y-2 md:space-y-4"> 
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.entryLevel" (change)="onFilterChange()">
-                  <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm md:text-base">Entry Level</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.junior" (change)="onFilterChange()">
-                  <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm md:text-base">Junior</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.midLevel" (change)="onFilterChange()">
-                  <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm md:text-base">Mid Level</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.senior" (change)="onFilterChange()">
-                  <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm md:text-base">Senior</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.experienceLevel.lead" (change)="onFilterChange()">
-                  <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm md:text-base">Lead</span>
-              </li>
-          </ul>
-
-          <!-- Job Place Section -->
-          <h2 class="text-lg md:text-xl font-bold mt-6 mb-4">Job Place</h2>
-          <ul class="space-y-2 md:space-y-4"> 
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobPlace.onSite" (change)="onFilterChange()">
-                  <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm md:text-base">On-site</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobPlace.remote" (change)="onFilterChange()">
-                  <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm md:text-base">Remote</span>
-              </li>
-              <li>
-                  <input type="checkbox" class="mr-2" [(ngModel)]="filters.jobPlace.hybrid" (change)="onFilterChange()">
-                  <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm md:text-base">Hybrid</span>
-              </li>
-          </ul>
-      </div>
-
-      <!-- Main Content -->
-      <div class="flex-1">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div *ngFor="let job of filteredJobs" class="bg-white shadow-lg rounded-2xl p-4 md:p-5 w-full h-full flex flex-col">
-                  <div class="flex items-center gap-3">
-                      <div>
-                          <h3 class="text-base md:text-lg font-semibold">{{ job.title }}</h3>
-                          <p class="text-gray-500 text-xs md:text-sm">{{ job.companyName }} • {{ job.experienceLevel }}</p>
-                      </div>
-                  </div>
-                  <div class="flex flex-wrap gap-2 mt-2 md:mt-3">
-                      <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">{{ job.experienceLevel }}</span>
-                      <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">{{ job.jobType }}</span>
-                      <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded-full">{{ job.jobPlace }}</span>
-                  </div>
-                  <p class="text-gray-600 text-xs md:text-sm mt-2 md:mt-3 overflow-hidden line-clamp-3 flex-grow">
-                      {{ job.description }}
-                  </p>
-                  <div class="flex justify-between items-center mt-3 md:mt-4 pt-2 border-t border-gray-100">
-                      <span class="text-base md:text-lg font-bold">${{ job.salary }}/hr</span>
-                      <span class="text-gray-400 text-xs md:text-sm">Posted {{ job.postedDate | date: 'shortDate' }}</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>

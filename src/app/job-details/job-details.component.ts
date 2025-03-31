@@ -18,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class JobDetailsComponent implements OnInit {
   job: any = null; 
-  private apiUrl = 'https://localhost:7115/api/Jobs/9'; // 🔹 نطلب وظيفة محددة
+  private apiUrl = 'https://localhost:7115/api/Jobs/10'; // 🔹 نطلب وظيفة محددة
 
   constructor(private http: HttpClient) {}
 

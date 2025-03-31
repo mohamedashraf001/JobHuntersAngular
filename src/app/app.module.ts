@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { CommonModule } from '@angular/common';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { HomeComponent } from './home/home.component';
+import { GetuserappsComponent } from './getuserapps/getuserapps.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { HomeComponent } from './home/home.component';
      GetuserjobsComponent,
      LoginComponent,
      HomeComponent,
+     GetuserappsComponent,
   
   ],
   imports: [
